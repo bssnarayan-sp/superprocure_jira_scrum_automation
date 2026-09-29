@@ -13,11 +13,24 @@ const {
 const config =
   require("../src/config");
 
-module.exports = async function handler(
-  req,
-  res
-) {
+module.exports = async function handler(req, res) {
   try {
+    const authHeader =
+      req.headers.authorization;
+
+    const expectedSecret =
+      process.env.CRON_SECRET;
+
+    if (
+      !expectedSecret ||
+      authHeader !== `Bearer ${expectedSecret}`
+    ) {
+      return res.status(401).json({
+        success: false,
+        error: "Unauthorized",
+      });
+    }
+
     console.log(
       `Generating report for ${config.jira.sprint}`
     );

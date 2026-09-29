@@ -1,0 +1,19 @@
+name: Jira Sprint Report
+
+on:
+  schedule:
+    - cron: "*/2 * * * *" # every 2 minutes (testing) — revert before deploying
+
+  workflow_dispatch:
+
+jobs:
+  send-report:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger Jira Sprint Report
+        run: |
+          curl --fail \
+            --request GET \
+            --header "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            "${{ secrets.REPORT_URL }}"
