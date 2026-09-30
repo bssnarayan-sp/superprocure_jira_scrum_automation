@@ -153,7 +153,9 @@ function buildSlackBlocks(report, sprint) {
           type: "mrkdwn",
           text:
             `Automated Jira snapshot • ` +
-            `${new Date().toLocaleString()}`,
+            `${new Date().toLocaleString("en-IN", {
+              timeZone: "Asia/Kolkata",
+            })} IST`,
         },
       ],
     },
