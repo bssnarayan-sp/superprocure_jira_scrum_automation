@@ -10,9 +10,6 @@ const {
   sendSlackReport,
 } = require("../src/slack");
 
-const config =
-  require("../src/config");
-
 module.exports = async function handler(req, res) {
   try {
     const authHeader =
@@ -31,12 +28,22 @@ module.exports = async function handler(req, res) {
       });
     }
 
+    const sprint = req.query?.sprint;
+
+    if (!sprint) {
+      return res.status(400).json({
+        success: false,
+        error:
+          "Missing required query param: sprint",
+      });
+    }
+
     console.log(
-      `Generating report for ${config.jira.sprint}`
+      `Generating report for ${sprint}`
     );
 
     const issues =
-      await getSprintIssues();
+      await getSprintIssues(sprint);
 
     console.log(
       `Fetched ${issues.length} Jira issues`
@@ -47,12 +54,12 @@ module.exports = async function handler(req, res) {
 
     await sendSlackReport(
       report,
-      config.jira.sprint
+      sprint
     );
 
     return res.status(200).json({
       success: true,
-      sprint: config.jira.sprint,
+      sprint,
       issues: issues.length,
     });
   } catch (error) {

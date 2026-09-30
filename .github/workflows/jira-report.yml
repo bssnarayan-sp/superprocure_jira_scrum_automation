@@ -6,6 +6,10 @@ on:
 
   workflow_dispatch:
 
+env:
+  # Update this whenever the sprint changes — no other file needs to change.
+  SPRINT: "Sprint 208"
+
 jobs:
   send-report:
     runs-on: ubuntu-latest
@@ -15,5 +19,7 @@ jobs:
         run: |
           curl --fail \
             --request GET \
+            --get \
+            --data-urlencode "sprint=${SPRINT}" \
             --header "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
             "${{ secrets.REPORT_URL }}"

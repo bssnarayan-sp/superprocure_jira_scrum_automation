@@ -7,7 +7,6 @@ module.exports = {
     baseUrl: process.env.JIRA_BASE_URL,
     email: process.env.JIRA_EMAIL,
     token: process.env.JIRA_API_TOKEN,
-    sprint: process.env.JIRA_SPRINT,
   },
 
   slack: {

@@ -13,17 +13,24 @@ const {
   sendSlackReport,
 } = require("./slack");
 
-const config =
-  require("./config");
+const sprint = process.argv[2];
+
+if (!sprint) {
+  console.error(
+    "Usage: node src/index.js \"Sprint 208\""
+  );
+
+  process.exit(1);
+}
 
 async function run() {
   try {
     console.log(
-      `\nGenerating report for ${config.jira.sprint}`
+      `\nGenerating report for ${sprint}`
     );
 
     const issues =
-      await getSprintIssues();
+      await getSprintIssues(sprint);
 
     console.log(
       `Total Jira issues: ${issues.length}`
@@ -42,7 +49,7 @@ async function run() {
 
     await sendSlackReport(
       report,
-      config.jira.sprint
+      sprint
     );
   } catch (error) {
     console.error(

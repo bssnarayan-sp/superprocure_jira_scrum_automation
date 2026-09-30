@@ -12,7 +12,7 @@ const jira = axios.create({
     }
 });
 
-async function getSprintIssues() {
+async function getSprintIssues(sprint) {
 
     let issues = [];
     let nextPageToken = null;
@@ -20,7 +20,7 @@ async function getSprintIssues() {
     do {
 
         const params = {
-            jql: `Sprint in ("${config.jira.sprint}")`,
+            jql: `Sprint in ("${sprint}")`,
             fields: "status,assignee",
             maxResults: 100
         };
