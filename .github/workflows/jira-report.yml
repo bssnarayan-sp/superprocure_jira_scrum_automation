@@ -2,7 +2,7 @@ name: Jira Sprint Report
 
 on:
   schedule:
-    - cron: "*/5 * * * *" # every 2 minutes (testing) — revert before deploying
+    - cron: "30 2,14 * * *" # 8:00 AM and 8:00 PM IST
 
   workflow_dispatch:
 
